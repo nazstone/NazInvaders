@@ -75,7 +75,7 @@ const Detail = ({ route, navigation }) => {
   }
   const scaleValue = useRef(1);
   const renderItem = (d) => (
-    <View style={{ flex: 1, backgroundColor: 'green' }}>
+    <View style={{ flex: 1 /*, backgroundColor: 'green'*/ }}>
       <ImageZoom
         cropWidth={Dimensions.get('window').width}
         cropHeight={styleImage.height}
@@ -89,12 +89,12 @@ const Detail = ({ route, navigation }) => {
           scaleValue.current = scale;
         }}
       >
-        {/* <FastImage
+        <FastImage
           source={{ uri: d.item }}
-          style={{ backgroundColor: 'red', flex: 1, margin: 10 }}
+          style={{ /*backgroundColor: 'red', */ flex: 1 /*margin: 10*/ }}
           resizeMode="contain"
-        /> */}
-        <View style={{ backgroundColor: 'red', flex: 1, margin: 10 }}></View>
+        />
+        {/* <View style={{ backgroundColor: 'red', flex: 1, margin: 10 }}></View> */}
       </ImageZoom>
       <Text
         onPress={() => {
