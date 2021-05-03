@@ -18,7 +18,6 @@ const styleRowBetween = {
   flexDirection: 'row',
   justifyContent: 'space-between',
 };
-
 const styleCommentView = {
   padding: 5,
   paddingLeft: 10,
@@ -27,7 +26,6 @@ const styleCommentText = {
   borderLeftWidth: 2,
   paddingLeft: 5,
 };
-
 const styleTextOpen = {
   position: 'absolute',
   right: 0,
@@ -41,6 +39,10 @@ const styleTextOpen = {
   borderWidth: 3,
   backgroundColor: 'white',
 };
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const Detail = ({ route, navigation }) => {
   const { item } = route.params;
 
@@ -75,12 +77,13 @@ const Detail = ({ route, navigation }) => {
   }
   const scaleValue = useRef(1);
   const renderItem = (d) => (
-    <View style={{ flex: 1 /*, backgroundColor: 'green'*/ }}>
+    <View style={flex1}>
       <ImageZoom
-        cropWidth={Dimensions.get('window').width}
-        cropHeight={styleImage.height}
-        imageWidth={styleImage.width}
-        imageHeight={styleImage.height}
+        style={flex1}
+        cropWidth={windowWidth}
+        cropHeight={windowHeight / 2}
+        imageWidth={windowWidth}
+        imageHeight={windowHeight}
         minScale={1}
         onStartShouldSetPanResponder={(e) => {
           return e.nativeEvent.touches.length === 2 || scaleValue.current > 1;
@@ -91,10 +94,9 @@ const Detail = ({ route, navigation }) => {
       >
         <FastImage
           source={{ uri: d.item }}
-          style={{ /*backgroundColor: 'red', */ flex: 1 /*margin: 10*/ }}
+          style={flex1}
           resizeMode="contain"
         />
-        {/* <View style={{ backgroundColor: 'red', flex: 1, margin: 10 }}></View> */}
       </ImageZoom>
       <Text
         onPress={() => {
