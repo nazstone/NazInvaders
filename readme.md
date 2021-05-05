@@ -40,7 +40,3 @@ device must be connected
 npx react-native run-android --variant=release
 ```
 
-# todo:
-
-rajouter de la carto
-rajouter un about
