@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { styleStatus } from '../utils/style';
 
 const styleDirectionRow = {
   flexDirection: 'row',
@@ -37,7 +38,7 @@ const ItemInvader = ({ item, navigation }) => {
         <View style={styleMetadata}>
           <View style={styleName}>
             <Text style={styleNameMore}>{item.name}</Text>
-            <Text>{item.status}</Text>
+            <Text style={styleStatus(item.status)}>{item.status}</Text>
           </View>
           <View style={styleDatePoints}>
             <Text>{item.points} points</Text>

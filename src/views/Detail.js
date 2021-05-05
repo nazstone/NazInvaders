@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, FlatList, Linking, Text, View } from 'react-native';
+import {
+  Button,
+  Dimensions,
+  FlatList,
+  Linking,
+  Text,
+  View,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageZoom from 'react-native-image-pan-zoom';
 import { getComments } from '../repo/db';
-import { flex1 } from '../utils/style';
+import { flex1, styleStatus } from '../utils/style';
 
-const styleImage = { width: 400, height: 400 };
 const styleScroll = {
   marginTop: 10,
   marginBottom: 10,
@@ -25,6 +31,7 @@ const styleCommentView = {
 const styleCommentText = {
   borderLeftWidth: 2,
   paddingLeft: 5,
+  fontWeight: 'bold',
 };
 const styleTextOpen = {
   position: 'absolute',
@@ -42,6 +49,13 @@ const styleTextOpen = {
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+const styleCommentTitle = { fontWeight: 'bold', fontSize: 17 };
+const styleLocationInfo = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginTop: 10,
+};
 
 const Detail = ({ route, navigation }) => {
   const { item } = route.params;
@@ -126,11 +140,14 @@ const Detail = ({ route, navigation }) => {
           <Text>{item.points} points</Text>
         </View>
         <View style={styleRowBetween}>
-          <Text>{item.status}</Text>
+          <Text style={styleStatus(item.status)}>Status: {item.status}</Text>
           <Text>{item.date}</Text>
         </View>
-        <Text>Place: {item.city}</Text>
-        <Text>Comments:</Text>
+        <View style={styleLocationInfo}>
+          <Text>Place: {item.city}</Text>
+          <Button onPress={() => console.log('tada')} title="Location" />
+        </View>
+        <Text style={styleCommentTitle}>Comments:</Text>
         <View>{commentsView}</View>
       </ScrollView>
     </View>
