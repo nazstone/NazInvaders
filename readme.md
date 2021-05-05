@@ -1,5 +1,9 @@
 # Dev
 
+## DB
+
+A sqlite db must be fill by information available from InvaderSpotterExtract tools (target => android/app/src/main/assets/www)
+
 ## Dev tools
 
 ```shell
