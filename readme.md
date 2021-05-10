@@ -21,7 +21,7 @@ npm run android
 ## Clean
 
 ```shell
-cd android && ./gradlew cleancd
+cd android && ./gradlew clean && cd ..
 ```
 
 ## APK
@@ -39,4 +39,3 @@ device must be connected
 ```shell
 npx react-native run-android --variant=release
 ```
-

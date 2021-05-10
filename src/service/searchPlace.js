@@ -1,0 +1,43 @@
+import AppMetadata from '../utils/app.metadata';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const KEY = 'cache_maps_query_place_';
+
+const storeData = async (key, value) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(`${KEY}${key}`, jsonValue);
+  } catch (e) {
+    // saving error
+  }
+};
+
+const getData = async (key) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(`${KEY}${key}`);
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+  }
+};
+
+const searchPlace = async (input) => {
+  const place = await getData(input);
+  if (place) {
+    return place.geometry.location;
+  }
+  try {
+    const key = await AppMetadata.getAppMetadataBy(
+      'com.google.android.geo.API_KEY'
+    );
+    const queryRest = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${input}&key=${key}`;
+    const response = await fetch(queryRest);
+    const json = await response.json();
+    await storeData(input, json.results[0]);
+    return json.results[0].geometry.location;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { searchPlace };
