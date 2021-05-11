@@ -53,6 +53,7 @@ const Map = ({ route, navigation }) => {
         },
         500
       );
+      setTimeout(() => setMessage(null), 500);
     }
   }, [item]);
 

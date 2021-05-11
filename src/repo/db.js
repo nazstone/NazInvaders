@@ -1,4 +1,3 @@
-import { call } from 'react-native-reanimated';
 import SQLite from 'react-native-sqlite-storage';
 SQLite.enablePromise(false);
 SQLite.DEBUG(false);
@@ -70,11 +69,11 @@ const getItemPaginate = async ({ city }, { limit, offset }, callback) => {
   callback(res);
 };
 
-const cities = async (callback) => {
+const getCities = async () => {
   const res = await exec(
     'SELECT city as name, count(1) as "count" FROM item group by city'
   );
-  callback(res);
+  return res;
 };
 
 const getComments = async (itemid) => {
@@ -93,7 +92,7 @@ const savePin = async (item) => {
   await exec('update item set pin = ? where id = ?', [item.pin, item.id]);
 };
 
-const exec = (query, args) => {
+const exec = (query, args = []) => {
   return new Promise((res, rej) => {
     db.transaction((txn) => {
       txn.executeSql(query, args, (tx, rs) => {
@@ -107,7 +106,7 @@ export {
   init,
   getItemCount,
   getItemPaginate,
-  cities,
+  getCities,
   getPref,
   setPref,
   getComments,

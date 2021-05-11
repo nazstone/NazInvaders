@@ -9,7 +9,7 @@ import {
 
 import { useDispatch } from 'react-redux';
 
-import { cities, setPref } from '../repo/db';
+import { getCities, setPref } from '../repo/db';
 import { setPrefCity } from '../reducer/pref.action';
 import { text } from '../utils/font';
 import { flex1 } from '../utils/style';
@@ -60,7 +60,7 @@ const CityView = ({ navigation }) => {
   const [cityRow, setCityRow] = useState({});
 
   useEffect(() => {
-    cities(setCityRow);
+    getCities().then(setCityRow);
   }, []);
 
   let counter = 0;

@@ -21,6 +21,30 @@ const getData = async (key) => {
   }
 };
 
+const getPlaces = async () => {
+  try {
+    let keys = await AsyncStorage.getAllKeys();
+    keys = keys.filter((k) => k.indexOf(KEY) >= 0);
+    const r = await Promise.all(
+      keys.map(async (k) => {
+        let location = null;
+        const jsonValue = await AsyncStorage.getItem(k);
+        if (jsonValue) {
+          const tmpJson = JSON.parse(jsonValue);
+          location = tmpJson.geometry.location;
+        }
+        return {
+          name: k.substr(KEY.length),
+          location,
+        };
+      })
+    );
+    return r;
+  } catch (e) {
+    console.error('get places', e);
+  }
+};
+
 const searchPlace = async (input) => {
   const place = await getData(input);
   if (place) {
@@ -40,4 +64,4 @@ const searchPlace = async (input) => {
   }
 };
 
-export { searchPlace };
+export { searchPlace, getPlaces };
