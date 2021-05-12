@@ -6,9 +6,14 @@ import { Button, View } from 'react-native';
 import { flex1 } from '../utils/style';
 import { getPlaces } from '../service/searchPlace';
 import { getCities } from '../repo/db';
+import { useDispatch } from 'react-redux';
+import { onPressSelectCity } from './utils';
 
 const Map = ({ navigation }) => {
   const [places, setPlaces] = useState([]);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const launch = async () => {
       const placesDb = await getPlaces();
@@ -38,6 +43,7 @@ const Map = ({ navigation }) => {
         keys={d.name.replace(/ /g, '_')}
         coordinate={{ longitude: d.location.lng, latitude: d.location.lat }}
         title={d.name}
+        onCalloutPress={onPressSelectCity(navigation, d, dispatch)}
         description={(d.count && `Count of invaders: ${d.count}`) || ''}
       />
     ));

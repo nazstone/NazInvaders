@@ -54,13 +54,15 @@ const searchPlace = async (input) => {
     const key = await AppMetadata.getAppMetadataBy(
       'com.google.android.geo.API_KEY'
     );
-    const queryRest = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${input}&key=${key}`;
+    // precise city in query to avoid some weird response like barcelona in france
+    const cityName = input.split(' - ')[0];
+    const queryRest = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${cityName}%20city&key=${key}`;
     const response = await fetch(queryRest);
     const json = await response.json();
     await storeData(input, json.results[0]);
     return json.results[0].geometry.location;
   } catch (error) {
-    console.error(error);
+    console.error(error, input);
   }
 };
 

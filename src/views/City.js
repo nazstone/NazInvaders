@@ -9,10 +9,10 @@ import {
 
 import { useDispatch } from 'react-redux';
 
-import { getCities, setPref } from '../repo/db';
-import { setPrefCity } from '../reducer/pref.action';
+import { getCities } from '../repo/db';
 import { text } from '../utils/font';
 import { flex1 } from '../utils/style';
+import { onPressSelectCity } from './utils';
 
 const style = {
   ...text,
@@ -38,11 +38,7 @@ const separator = {
 
 const City = ({ city, navigation }) => {
   const dispatch = useDispatch();
-  const onPress = async () => {
-    await setPref({ city: city.name });
-    dispatch(setPrefCity(city));
-    navigation.goBack();
-  };
+  const onPress = onPressSelectCity(navigation, city, dispatch);
   return (
     <TouchableHighlight onPress={onPress} underlayColor="gray">
       <View>
