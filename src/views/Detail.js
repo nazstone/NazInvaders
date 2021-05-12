@@ -10,11 +10,14 @@ import {
 import FastImage from 'react-native-fast-image';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageZoom from 'react-native-image-pan-zoom';
+import { DateTime } from 'luxon';
+
 import { getComments } from '../repo/db';
 import { flex1, styleStatus } from '../utils/style';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const DATE_FORMAT_FROM_DB = 'dd/MM/yyyy';
 
 const styleScroll = {
   marginTop: 10,
@@ -83,18 +86,25 @@ const Detail = ({ route, navigation }) => {
     })();
   }, [item.id]);
 
-  const commentsView = [];
+  const commentsUnsort = [];
   for (let i = 0; i < comments.length; i += 1) {
-    const comment = comments.item(i);
-    commentsView.push(
+    commentsUnsort.push(comments.item(i));
+  }
+  const commentsView = commentsUnsort
+    .sort((a, b) => {
+      return (
+        DateTime.fromFormat(b.date, DATE_FORMAT_FROM_DB) -
+        DateTime.fromFormat(a.date, 'dd/MM/yyyy')
+      );
+    })
+    .map((comment) => (
       <View key={comment.id} style={styleCommentView}>
         <Text style={styleCommentText}>
           {comment.author} ({comment.date}):
         </Text>
         <Text>{comment.comment}</Text>
       </View>
-    );
-  }
+    ));
 
   const images = [item.image_main];
   if (item.image_street) {

@@ -81,8 +81,7 @@ const getComments = async (itemid) => {
     `
     SELECT rowid as id, comment, date, author 
     FROM item_comment 
-    where itemid = ? 
-    order by date desc`,
+    where itemid = ? `,
     [itemid]
   );
   return res;
