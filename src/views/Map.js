@@ -30,13 +30,12 @@ const Map = ({ navigation }) => {
     launch();
   }, []);
 
-  console.log(places.length);
   const markers =
     places &&
     places.length > 0 &&
     places.map((d) => (
       <Marker
-        keys={d.name}
+        keys={d.name.replace(/ /g, '_')}
         coordinate={{ longitude: d.location.lng, latitude: d.location.lat }}
         title={d.name}
         description={(d.count && `Count of invaders: ${d.count}`) || ''}
