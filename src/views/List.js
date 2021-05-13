@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { Image, FlatList, SafeAreaView, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getPref, getItemCount, getItemPaginate } from '../repo/db';
 import { text } from '../utils/font';
 import { flex1 } from '../utils/style';
 import ItemInvader from './ItemInvader';
+import { onPressSelectCity } from './utils';
 
 const LIMIT_SEARCH = 50;
 
+const styleTitleButton = {
+  flexDirection: 'row',
+  backgroundColor: 'lightgray',
+  margin: 10,
+  borderWidth: 2,
+  borderRadius: 10,
+  borderStyle: 'dashed',
+};
+
 const List = ({ navigation }) => {
+  const dispatch = useDispatch();
   const prefConf = useSelector((state) => state.pref);
 
   const [count, setCount] = useState(0);
@@ -58,13 +69,12 @@ const List = ({ navigation }) => {
 
   const safeAreaViewStyle = {
     ...flex1,
-    marginBottom: 50,
   };
 
   const whereTextStyle = {
     ...text,
     padding: 15,
-    backgroundColor: 'lightgray',
+    flex: 1,
   };
 
   const loadNext = () => {
@@ -76,18 +86,26 @@ const List = ({ navigation }) => {
 
   return (
     <SafeAreaView style={safeAreaViewStyle}>
-      <View>
-        <Text style={whereTextStyle}>
-          {cityName || 'Around the world'} ({count})
-        </Text>
-        <FlatList
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          onEndReached={loadNext}
-          onEndReachedThreshold={0.5}
-        />
-      </View>
+      {!!cityName && (
+        <View style={styleTitleButton}>
+          <Text style={whereTextStyle}>
+            {cityName || 'Around the world'} ({count})
+          </Text>
+
+          <Image
+            resizeMode="center"
+            onTouchEnd={onPressSelectCity(null, {}, dispatch)}
+            source={require('../../assets/img/close.png')}
+          />
+        </View>
+      )}
+      <FlatList
+        data={items}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        onEndReached={loadNext}
+        onEndReachedThreshold={0.5}
+      />
     </SafeAreaView>
   );
 };

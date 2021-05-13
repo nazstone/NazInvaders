@@ -5,7 +5,9 @@ const onPressSelectCity = (navigation, city, dispatch) => {
   return async () => {
     await setPref({ city: city.name });
     dispatch(setPrefCity(city));
-    navigation.goBack();
+    if (navigation) {
+      navigation.goBack();
+    }
   };
 };
 

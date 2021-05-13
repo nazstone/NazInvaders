@@ -19,7 +19,7 @@ const Home = () => {
       <Stack.Screen
         name="Invaders"
         component={List}
-        options={({ navigation, route }) => ({
+        options={({ navigation }) => ({
           headerTitle: (props) => {
             return <Text style={title}>{props.children}</Text>;
           },
@@ -31,6 +31,16 @@ const Home = () => {
                 navigation.openDrawer();
               }}
               source={require('../../assets/img/menu.png')}
+            />
+          ),
+          headerRight: () => (
+            <Image
+              style={style}
+              resizeMode="center"
+              onTouchEnd={() => {
+                navigation.jumpTo('Map');
+              }}
+              source={require('../../assets/img/map.png')}
             />
           ),
         })}
