@@ -40,17 +40,14 @@ const Map = ({ navigation }) => {
     places.length > 0 &&
     places.map((d) => (
       <Marker
-        keys={d.name.replace(/ /g, '_')}
+        key={d.name.replace(/ /g, '_')}
         coordinate={{ longitude: d.location.lng, latitude: d.location.lat }}
         title={d.name}
         onCalloutPress={onPressSelectCity(navigation, d, dispatch)}
-        description={(d.count && `Count of invaders: ${d.count}`) || ''}
+        description={(d.count && `${d.count} invaders`) || ''}
       />
     ));
 
-  // const urlTemplate="http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg"
-  // const urlTemplate="http://c.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  // const urlTemplate="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
   return (
     <View style={flex1}>
       <MapView style={flex1}>{markers}</MapView>
