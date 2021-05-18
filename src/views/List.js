@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getPref, getItemCount, getItemPaginate } from '../repo/db';
 import { text } from '../utils/font';
-import { flex1 } from '../utils/style';
+import { borderColor, flex1 } from '../utils/style';
 import ItemInvader from './ItemInvader';
 import { onPressSelectCity } from './utils';
 
@@ -14,11 +14,12 @@ const LIMIT_SEARCH = 50;
 
 const styleTitleButton = {
   flexDirection: 'row',
-  backgroundColor: 'lightgray',
+  backgroundColor: 'gray',
   margin: 10,
   borderWidth: 2,
   borderRadius: 10,
   borderStyle: 'dashed',
+  borderColor,
 };
 
 const safeAreaViewStyle = {

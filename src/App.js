@@ -13,6 +13,7 @@ import prefReduce from './reducer/pref.reduce';
 import Home from './views/Home';
 import AboutView from './views/About';
 import Map from './views/Map';
+import { theme } from './utils/style';
 
 init();
 const Drawer = createDrawerNavigator();
@@ -21,7 +22,7 @@ const store = createStore(prefReduce);
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer theme={theme}>
         <Drawer.Navigator initialRouteName="Home">
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="City" component={CityView} />
