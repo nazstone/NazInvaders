@@ -12,6 +12,7 @@ import CityView from './views/City';
 import prefReduce from './reducer/pref.reduce';
 import Home from './views/Home';
 import AboutView from './views/About';
+import Map from './views/Map';
 
 init();
 const Drawer = createDrawerNavigator();
@@ -24,6 +25,7 @@ const App = () => {
         <Drawer.Navigator initialRouteName="Home">
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="City" component={CityView} />
+          <Drawer.Screen name="Map" component={Map} />
           <Drawer.Screen name="About" component={AboutView} />
         </Drawer.Navigator>
       </NavigationContainer>

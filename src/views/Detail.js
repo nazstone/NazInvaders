@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Button,
+  TouchableOpacity,
   Dimensions,
   FlatList,
   Linking,
@@ -10,8 +10,14 @@ import {
 import FastImage from 'react-native-fast-image';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageZoom from 'react-native-image-pan-zoom';
+import { DateTime } from 'luxon';
+
 import { getComments } from '../repo/db';
 import { flex1, styleStatus } from '../utils/style';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const DATE_FORMAT_FROM_DB = 'dd/MM/yyyy';
 
 const styleScroll = {
   marginTop: 10,
@@ -20,19 +26,23 @@ const styleScroll = {
   paddingRight: 10,
   flex: 1,
 };
+
 const styleRowBetween = {
   flexDirection: 'row',
   justifyContent: 'space-between',
 };
+
 const styleCommentView = {
   padding: 5,
   paddingLeft: 10,
 };
+
 const styleCommentText = {
   borderLeftWidth: 2,
   paddingLeft: 5,
   fontWeight: 'bold',
 };
+
 const styleTextOpen = {
   position: 'absolute',
   right: 0,
@@ -47,14 +57,21 @@ const styleTextOpen = {
   backgroundColor: 'white',
 };
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 const styleCommentTitle = { fontWeight: 'bold', fontSize: 17 };
+
 const styleLocationInfo = {
   flexDirection: 'row',
   justifyContent: 'space-between',
   marginTop: 10,
+};
+
+const styleLocation = {
+  borderWidth: 3,
+  borderRadius: 25,
+  width: 70,
+  height: 30,
+  alignItems: 'center',
+  paddingTop: 1,
 };
 
 const Detail = ({ route, navigation }) => {
@@ -69,18 +86,25 @@ const Detail = ({ route, navigation }) => {
     })();
   }, [item.id]);
 
-  const commentsView = [];
+  const commentsUnsort = [];
   for (let i = 0; i < comments.length; i += 1) {
-    const comment = comments.item(i);
-    commentsView.push(
+    commentsUnsort.push(comments.item(i));
+  }
+  const commentsView = commentsUnsort
+    .sort((a, b) => {
+      return (
+        DateTime.fromFormat(b.date, DATE_FORMAT_FROM_DB) -
+        DateTime.fromFormat(a.date, 'dd/MM/yyyy')
+      );
+    })
+    .map((comment) => (
       <View key={comment.id} style={styleCommentView}>
         <Text style={styleCommentText}>
           {comment.author} ({comment.date}):
         </Text>
         <Text>{comment.comment}</Text>
       </View>
-    );
-  }
+    ));
 
   const images = [item.image_main];
   if (item.image_street) {
@@ -136,7 +160,7 @@ const Detail = ({ route, navigation }) => {
       />
       <ScrollView style={styleScroll}>
         <View style={styleRowBetween}>
-          <Text>{item.name}</Text>
+          <Text style={styleCommentTitle}>{item.name}</Text>
           <Text>{item.points} points</Text>
         </View>
         <View style={styleRowBetween}>
@@ -145,7 +169,17 @@ const Detail = ({ route, navigation }) => {
         </View>
         <View style={styleLocationInfo}>
           <Text>Place: {item.city}</Text>
-          <Button onPress={() => console.log('tada')} title="Location" />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Home', {
+                screen: 'Map',
+                params: { item },
+              });
+            }}
+            style={styleLocation}
+          >
+            <Text>{item.pin ? 'Map' : 'Add pin'}</Text>
+          </TouchableOpacity>
         </View>
         <Text style={styleCommentTitle}>Comments:</Text>
         <View>{commentsView}</View>

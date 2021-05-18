@@ -5,6 +5,7 @@ import List from './List';
 import Detail from './Detail';
 import { Image, Text } from 'react-native';
 import { title } from '../utils/font';
+import MapPlacePin from './MapPlacePin';
 
 const Stack = createStackNavigator();
 
@@ -18,7 +19,7 @@ const Home = () => {
       <Stack.Screen
         name="Invaders"
         component={List}
-        options={({ navigation, route }) => ({
+        options={({ navigation }) => ({
           headerTitle: (props) => {
             return <Text style={title}>{props.children}</Text>;
           },
@@ -32,9 +33,20 @@ const Home = () => {
               source={require('../../assets/img/menu.png')}
             />
           ),
+          headerRight: () => (
+            <Image
+              style={style}
+              resizeMode="center"
+              onTouchEnd={() => {
+                navigation.jumpTo('Map');
+              }}
+              source={require('../../assets/img/map.png')}
+            />
+          ),
         })}
       />
       <Stack.Screen name="Detail" component={Detail} />
+      <Stack.Screen name="Map" component={MapPlacePin} />
     </Stack.Navigator>
   );
 };
