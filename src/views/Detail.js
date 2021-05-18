@@ -4,9 +4,9 @@ import {
   Dimensions,
   FlatList,
   Linking,
-  Text,
   View,
 } from 'react-native';
+import Text from './components/Text';
 import FastImage from 'react-native-fast-image';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageZoom from 'react-native-image-pan-zoom';

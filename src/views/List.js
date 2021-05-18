@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, FlatList, SafeAreaView, Text, View } from 'react-native';
+import { Image, FlatList, SafeAreaView, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getPref, getItemCount, getItemPaginate } from '../repo/db';
@@ -7,6 +7,8 @@ import { text } from '../utils/font';
 import { flex1 } from '../utils/style';
 import ItemInvader from './ItemInvader';
 import { onPressSelectCity } from './utils';
+
+import Text from './components/Text';
 
 const LIMIT_SEARCH = 50;
 
@@ -17,6 +19,16 @@ const styleTitleButton = {
   borderWidth: 2,
   borderRadius: 10,
   borderStyle: 'dashed',
+};
+
+const safeAreaViewStyle = {
+  ...flex1,
+};
+
+const whereTextStyle = {
+  ...text,
+  padding: 15,
+  flex: 1,
 };
 
 const List = ({ navigation }) => {
@@ -65,16 +77,6 @@ const List = ({ navigation }) => {
 
   const renderItem = ({ item }) => {
     return <ItemInvader key={item.id} item={item} navigation={navigation} />;
-  };
-
-  const safeAreaViewStyle = {
-    ...flex1,
-  };
-
-  const whereTextStyle = {
-    ...text,
-    padding: 15,
-    flex: 1,
   };
 
   const loadNext = () => {

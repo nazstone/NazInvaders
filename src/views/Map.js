@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 // import MapView from 'react-native-map-clustering';
-import { Button, View } from 'react-native';
+import { View } from 'react-native';
 
 import { flex1 } from '../utils/style';
 import { getPlaces } from '../service/searchPlace';
 import { getCities } from '../repo/db';
 import { useDispatch } from 'react-redux';
 import { onPressSelectCity } from './utils';
+import Button from './components/Button';
 
 const Map = ({ navigation }) => {
   const [places, setPlaces] = useState([]);

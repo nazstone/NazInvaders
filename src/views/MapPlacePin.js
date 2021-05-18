@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { Button, View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import { flex1 } from '../utils/style';
 import { searchPlace } from '../service/searchPlace';
 import { text } from '../utils/font';
 import { savePin } from '../repo/db';
+import Text from './components/Text';
+import Button from './components/Button';
 
 const styleSelectedPoint = {
   flexDirection: 'row',

@@ -3,9 +3,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import List from './List';
 import Detail from './Detail';
-import { Image, Text } from 'react-native';
+import { Image } from 'react-native';
 import { title } from '../utils/font';
 import MapPlacePin from './MapPlacePin';
+import Text from './components/Text';
 
 const Stack = createStackNavigator();
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, TouchableHighlight, View } from 'react-native';
+import { TouchableHighlight, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { styleStatus } from '../utils/style';
+import Text from './components/Text';
 
 const styleDirectionRow = {
   flexDirection: 'row',
