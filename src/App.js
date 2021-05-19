@@ -13,7 +13,7 @@ import prefReduce from './reducer/pref.reduce';
 import Home from './views/Home';
 import AboutView from './views/About';
 import Map from './views/Map';
-import { theme } from './utils/style';
+import { fontFamily, theme } from './utils/style';
 
 init();
 const Drawer = createDrawerNavigator();
@@ -23,7 +23,14 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer theme={theme}>
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator
+          initialRouteName="Home"
+          drawerContentOptions={{
+            labelStyle: {
+              ...fontFamily,
+            },
+          }}
+        >
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="City" component={CityView} />
           <Drawer.Screen name="Map" component={Map} />

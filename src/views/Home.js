@@ -7,6 +7,7 @@ import { Image } from 'react-native';
 import { title } from '../utils/font';
 import MapPlacePin from './MapPlacePin';
 import Text from './components/Text';
+import { fontFamily } from '../utils/style';
 
 const Stack = createStackNavigator();
 
@@ -16,7 +17,14 @@ const style = {
 };
 const Home = () => {
   return (
-    <Stack.Navigator initialRouteName="List">
+    <Stack.Navigator
+      initialRouteName="List"
+      screenOptions={{
+        headerTitleStyle: {
+          ...fontFamily,
+        },
+      }}
+    >
       <Stack.Screen
         name="Invaders"
         component={List}
