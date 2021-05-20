@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  ScrollView,
-  Text,
-  View,
-  TouchableHighlight,
-} from 'react-native';
+import { ScrollView, View, TouchableHighlight } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 
@@ -13,6 +7,8 @@ import { getCities } from '../repo/db';
 import { text } from '../utils/font';
 import { flex1 } from '../utils/style';
 import { onPressSelectCity } from './utils';
+import Text from './components/Text';
+import Button from './components/Button';
 
 const style = {
   ...text,

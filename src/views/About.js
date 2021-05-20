@@ -1,7 +1,9 @@
 import React from 'react';
 
-import { View, Text, Button, Linking } from 'react-native';
+import { View, Linking } from 'react-native';
 import { text } from '../utils/font';
+import Button from './components/Button';
+import Text from './components/Text';
 
 const margin = {
   margin: 14,

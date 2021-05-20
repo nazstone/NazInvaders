@@ -1,11 +1,11 @@
 const text = {
-  fontSize: 24,
-  fontWeight: '600',
+  fontSize: 20,
+  fontWeight: '900',
 };
 
 const title = {
   fontSize: 34,
-  fontWeight: '600',
+  fontWeight: '900',
 };
 
 export { text, title };

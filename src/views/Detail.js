@@ -4,16 +4,22 @@ import {
   Dimensions,
   FlatList,
   Linking,
-  Text,
   View,
 } from 'react-native';
+import Text from './components/Text';
 import FastImage from 'react-native-fast-image';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageZoom from 'react-native-image-pan-zoom';
 import { DateTime } from 'luxon';
 
 import { getComments } from '../repo/db';
-import { flex1, styleStatus } from '../utils/style';
+import {
+  bgcolor,
+  borderColor,
+  flex1,
+  styleStatus,
+  textColor,
+} from '../utils/style';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -48,13 +54,15 @@ const styleTextOpen = {
   right: 0,
   bottom: 0,
   margin: 10,
-  paddingTop: 3,
+  paddingTop: 5,
   paddingBottom: 1,
   paddingRight: 5,
-  paddingLeft: 10,
+  paddingLeft: 12,
   borderRadius: 30,
   borderWidth: 3,
-  backgroundColor: 'white',
+  borderColor: borderColor,
+  backgroundColor: bgcolor,
+  color: textColor,
 };
 
 const styleCommentTitle = { fontWeight: 'bold', fontSize: 17 };
@@ -68,10 +76,11 @@ const styleLocationInfo = {
 const styleLocation = {
   borderWidth: 3,
   borderRadius: 25,
-  width: 70,
+  width: 80,
   height: 30,
   alignItems: 'center',
   paddingTop: 1,
+  borderColor: borderColor,
 };
 
 const Detail = ({ route, navigation }) => {
