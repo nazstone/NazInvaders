@@ -31,7 +31,7 @@ const getPlaces = async () => {
         const jsonValue = await AsyncStorage.getItem(k);
         if (jsonValue) {
           const tmpJson = JSON.parse(jsonValue);
-          location = tmpJson.geometry.location;
+          location = tmpJson;
         }
         return {
           name: k.substr(KEY.length),
@@ -48,19 +48,16 @@ const getPlaces = async () => {
 const searchPlace = async (input) => {
   const place = await getData(input);
   if (place) {
-    return place.geometry.location;
+    return place;
   }
   try {
-    const key = await AppMetadata.getAppMetadataBy(
-      'com.google.android.geo.API_KEY'
-    );
     // precise city in query to avoid some weird response like barcelona in france
     const cityName = input.split(' - ')[0];
-    const queryRest = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${cityName}%20city&key=${key}`;
+    const queryRest = `https://nominatim.openstreetmap.org/?addressdetails=0&q=${cityName}&format=json&limit=1`;
     const response = await fetch(queryRest);
     const json = await response.json();
-    await storeData(input, json.results[0]);
-    return json.results[0].geometry.location;
+    await storeData(input, json[0]);
+    return json[0];
   } catch (error) {
     console.error(error, input);
   }

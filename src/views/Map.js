@@ -17,8 +17,10 @@ const Map = ({ navigation }) => {
 
   useEffect(() => {
     const launch = async () => {
-      const placesDb = await getPlaces();
-      const citiesDb = await getCities();
+      const [placesDb, citiesDb] = await Promise.all([
+        getPlaces(),
+        getCities(),
+      ]);
       setPlaces(
         placesDb.map((d) => {
           let count = 0;
@@ -42,7 +44,10 @@ const Map = ({ navigation }) => {
     places.map((d) => (
       <Marker
         key={d.name.replace(/ /g, '_')}
-        coordinate={{ longitude: d.location.lng, latitude: d.location.lat }}
+        coordinate={{
+          longitude: parseFloat(d.location.lon),
+          latitude: parseFloat(d.location.lat),
+        }}
         title={d.name}
         onCalloutPress={onPressSelectCity(navigation, d, dispatch)}
         description={(d.count && `${d.count} invaders`) || ''}

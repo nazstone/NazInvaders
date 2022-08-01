@@ -36,7 +36,7 @@ const Map = ({ route, navigation }) => {
         setMessage('Going to the location');
         mapRef.current.animateToRegion(
           {
-            longitude: t.lng,
+            longitude: t.lon,
             latitude: t.lat,
             latitudeDelta: 1,
             longitudeDelta: 1,
