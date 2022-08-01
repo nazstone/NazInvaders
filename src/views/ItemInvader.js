@@ -26,15 +26,21 @@ const styleDatePoints = {
   alignItems: 'flex-end',
 };
 
-const ItemInvader = ({ item, navigation }) => {
+const ItemInvader = ({ item, navigation, lastSelected }) => {
   return (
     <TouchableHighlight
       underlayColor="gray"
       onPress={() => {
+        lastSelected && lastSelected(item);
         navigation.navigate('Home', { screen: 'Detail', params: { item } });
       }}
     >
-      <View style={styleDirectionRow}>
+      <View
+        style={{
+          ...styleDirectionRow,
+          backgroundColor: (!!item.lastSelected && '#333333') || 'black',
+        }}
+      >
         <FastImage source={{ uri: item.image_main }} style={styleFastImage} />
         <View style={styleMetadata}>
           <View style={styleName}>

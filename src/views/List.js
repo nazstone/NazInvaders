@@ -41,6 +41,7 @@ const List = ({ navigation }) => {
   const [offset, setOffset] = useState(0);
   const [cityName, setCityName] = useState('');
   const [items, setItems] = useState([]);
+  const [lastSelected, setLastSelected] = useState(null);
 
   const resetData = async () => {
     setCount(0);
@@ -63,7 +64,7 @@ const List = ({ navigation }) => {
       for (let i = 0; i < res.length; i += 1) {
         arr.push(res.item(i));
       }
-      setItems(arr);
+      mapItemsWithLastSelected(arr, lastSelected);
     });
   };
 
@@ -76,8 +77,33 @@ const List = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offset, cityName]);
 
+  const mapItemsWithLastSelected = (itemsTmp, lastSelectedTmp) => {
+    setItems(
+      itemsTmp.map((e) => {
+        if (
+          parseInt(e.id, 10) ===
+          parseInt((lastSelectedTmp && lastSelectedTmp.id) || 0, 10)
+        ) {
+          return { ...e, lastSelected: true };
+        }
+        return { ...e, lastSelected: false };
+      })
+    );
+  };
+
   const renderItem = ({ item }) => {
-    return <ItemInvader key={item.id} item={item} navigation={navigation} />;
+    return (
+      <ItemInvader
+        key={item.id}
+        item={item}
+        navigation={navigation}
+        lastSelected={(itemSelected) => {
+          setLastSelected(itemSelected);
+          // change items with last selected
+          mapItemsWithLastSelected(items, itemSelected);
+        }}
+      />
+    );
   };
 
   const loadNext = () => {
