@@ -39,3 +39,7 @@ device must be connected
 ```shell
 npx react-native run-android --variant=release
 ```
+
+## undeploy
+
+`adb uninstall com.nazinvader`

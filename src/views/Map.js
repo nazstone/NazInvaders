@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import MapView, { Marker } from 'react-native-maps';
-// import MapView from 'react-native-map-clustering';
+import { Marker } from 'react-native-maps';
+import MapView from 'react-native-map-clustering';
 import { View } from 'react-native';
 
 import { flex1 } from '../utils/style';
@@ -47,6 +47,8 @@ const Map = ({ navigation }) => {
         coordinate={{
           longitude: parseFloat(d.location.lon),
           latitude: parseFloat(d.location.lat),
+          longitudeDelta: 0,
+          latitudeDelta: 0,
         }}
         title={d.name}
         onCalloutPress={onPressSelectCity(navigation, d, dispatch)}
@@ -56,7 +58,37 @@ const Map = ({ navigation }) => {
 
   return (
     <View style={flex1}>
-      <MapView style={flex1}>{markers}</MapView>
+      <MapView
+        style={flex1}
+        initialRegion={{
+          longitude: 2.1,
+          latitude: 40.1,
+          longitudeDelta: 30,
+          latitudeDelta: 30,
+        }}
+      >
+        {markers}
+      </MapView>
+      {/* <MapView
+        initialRegion={{
+          latitude: 24.133765,
+          longitude: 90.198258,
+          latitudeDelta: 5,
+          longitudeDelta: 5,
+        }}
+        mapType={Platform.OS === 'android' ? 'none' : 'standard'}
+        // provider={null}
+        // rotateEnabled={false}
+        // zoomEnabled={false}
+        style={{ ...flex1, backgroundColor: 'red' }}
+      >
+        {/* <UrlTile
+          urlTemplate="https://c.tile.openstreetmap.org/${z}/${x}/${y}.png"
+          shouldReplaceMapContent={true}
+          maximumZ={9}
+          flipY={false}
+        />
+      </MapView> */}
       <Button onPress={() => navigation.goBack()} title="Cancel" />
     </View>
   );
