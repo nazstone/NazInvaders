@@ -3,7 +3,6 @@ import MapView, { Marker } from 'react-native-maps';
 import { View } from 'react-native';
 
 import { flex1 } from '../utils/style';
-import { searchPlace } from '../service/searchPlace';
 import { text } from '../utils/font';
 import { savePin } from '../repo/db';
 import Text from './components/Text';
@@ -30,33 +29,33 @@ const Map = ({ route, navigation }) => {
   const [coordinateTmp, setCoordinateTmp] = useState(null);
 
   useEffect(() => {
-    if (!item.pin) {
-      setMessage(`Looking for '${item.city}`);
-      searchPlace(item.city).then((t) => {
-        setMessage('Going to the location');
-        mapRef.current.animateToRegion(
-          {
-            longitude: t.lon,
-            latitude: t.lat,
-            latitudeDelta: 1,
-            longitudeDelta: 1,
-          },
-          500
-        );
-        setTimeout(() => setMessage(null), 500);
-      });
-    } else {
-      setMessage(`Looking for '${item.name}`);
-      mapRef.current.animateToRegion(
-        {
-          ...JSON.parse(item.pin),
-          latitudeDelta: 1,
-          longitudeDelta: 1,
-        },
-        500
-      );
-      setTimeout(() => setMessage(null), 500);
-    }
+    // if (!item.pin) {
+    //   setMessage(`Looking for '${item.city}`);
+    //   searchPlace(item.city).then((t) => {
+    //     setMessage('Going to the location');
+    //     mapRef.current.animateToRegion(
+    //       {
+    //         longitude: t.lon,
+    //         latitude: t.lat,
+    //         latitudeDelta: 1,
+    //         longitudeDelta: 1,
+    //       },
+    //       500
+    //     );
+    //     setTimeout(() => setMessage(null), 500);
+    //   });
+    // } else {
+    //   setMessage(`Looking for '${item.name}`);
+    //   mapRef.current.animateToRegion(
+    //     {
+    //       ...JSON.parse(item.pin),
+    //       latitudeDelta: 1,
+    //       longitudeDelta: 1,
+    //     },
+    //     500
+    //   );
+    //   setTimeout(() => setMessage(null), 500);
+    // }
   }, [item]);
 
   const savePinClick = async () => {

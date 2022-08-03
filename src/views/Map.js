@@ -17,23 +17,22 @@ const Map = ({ navigation }) => {
 
   useEffect(() => {
     const launch = async () => {
-      const [placesDb, citiesDb] = await Promise.all([
-        getPlaces(),
-        getCities(),
-      ]);
-      setPlaces(
-        placesDb.map((d) => {
-          let count = 0;
-          for (let j = 0; j < citiesDb.length; j += 1) {
-            const ctmp = citiesDb.item(j);
-            if (ctmp.name === d.name) {
-              count = ctmp.count;
-              break;
-            }
-          }
-          return { ...d, count };
-        })
-      );
+      const citiesDb = await getCities();
+      const placesTmp = [];
+      for (let j = 0; j < citiesDb.length; j += 1) {
+        const ctmp = citiesDb.item(j);
+        const location = getPlaces(ctmp.name);
+        if (location) {
+          placesTmp.push({
+            name: ctmp.name,
+            count: ctmp.count,
+            location,
+          });
+        } else {
+          console.log('missing location for ', ctmp.name);
+        }
+      }
+      setPlaces(placesTmp);
     };
     launch();
   }, []);

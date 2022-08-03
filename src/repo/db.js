@@ -1,18 +1,8 @@
 import SQLite from 'react-native-sqlite-storage';
-import { searchPlace } from '../service/searchPlace';
 SQLite.enablePromise(false);
 SQLite.DEBUG(false);
 
 let db = null;
-
-const fetchingPlace = () =>
-  new Promise(async (resolve) => {
-    const res = await getCities();
-    for (let i = 0; i < res.length; i += 1) {
-      await searchPlace(res.item(i).name);
-    }
-    resolve();
-  });
 
 const init = () => {
   return new Promise(async (resolve) => {
@@ -35,7 +25,6 @@ const init = () => {
       await exec('ALTER TABLE ITEM ADD column pin');
     }
 
-    await fetchingPlace();
     resolve();
   });
 };
