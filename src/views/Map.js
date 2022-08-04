@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Marker } from 'react-native-maps';
 import MapView from 'react-native-map-clustering';
-import { View } from 'react-native';
+import { ImageBackground, View } from 'react-native';
 
 import { flex1 } from '../utils/style';
 import { getPlaces } from '../service/searchPlace';
@@ -9,6 +9,8 @@ import { getCities } from '../repo/db';
 import { useDispatch } from 'react-redux';
 import { onPressSelectCity } from './utils';
 import Button from './components/Button';
+
+const styleBackground = { width: 30, height: 30 };
 
 const Map = ({ navigation }) => {
   const [places, setPlaces] = useState([]);
@@ -52,7 +54,12 @@ const Map = ({ navigation }) => {
         title={d.name}
         onCalloutPress={onPressSelectCity(navigation, d, dispatch)}
         description={(d.count && `${d.count} invaders`) || ''}
-      />
+      >
+        <ImageBackground
+          style={styleBackground}
+          source={require('../../assets/img/invaders_pin.png')}
+        />
+      </Marker>
     ));
 
   return (
@@ -65,29 +72,14 @@ const Map = ({ navigation }) => {
           longitudeDelta: 30,
           latitudeDelta: 30,
         }}
-      >
-        {markers}
-      </MapView>
-      {/* <MapView
-        initialRegion={{
-          latitude: 24.133765,
-          longitude: 90.198258,
-          latitudeDelta: 5,
-          longitudeDelta: 5,
-        }}
-        mapType={Platform.OS === 'android' ? 'none' : 'standard'}
-        // provider={null}
-        // rotateEnabled={false}
-        // zoomEnabled={false}
-        style={{ ...flex1, backgroundColor: 'red' }}
+        clusterColor="#f00"
       >
         {/* <UrlTile
-          urlTemplate="https://c.tile.openstreetmap.org/${z}/${x}/${y}.png"
-          shouldReplaceMapContent={true}
-          maximumZ={9}
-          flipY={false}
-        />
-      </MapView> */}
+          urlTemplate={'http://c.tile.openstreetmap.org/{z}/{x}/{y}.png'}
+          maximumZ={19}
+        /> */}
+        {markers}
+      </MapView>
       <Button onPress={() => navigation.goBack()} title="Cancel" />
     </View>
   );
