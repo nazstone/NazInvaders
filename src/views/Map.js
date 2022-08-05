@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Marker } from 'react-native-maps';
 import MapView from 'react-native-map-clustering';
-import { ImageBackground, View } from 'react-native';
+import { ImageBackground, Text, View } from 'react-native';
 
 import { flex1 } from '../utils/style';
 import { getPlaces } from '../service/searchPlace';
@@ -62,6 +62,19 @@ const Map = ({ navigation }) => {
       </Marker>
     ));
 
+  const widthHeight = 40;
+  const widthStyle = {
+    width: widthHeight,
+    height: widthHeight,
+  };
+  const textStyle = {
+    ...widthStyle,
+    color: 'white',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontWeight: 'bold',
+  };
+
   return (
     <View style={flex1}>
       <MapView
@@ -72,12 +85,31 @@ const Map = ({ navigation }) => {
           longitudeDelta: 30,
           latitudeDelta: 30,
         }}
-        clusterColor="#f00"
+        // clusterColor="#f00"
+        renderCluster={(cluster) => {
+          const { id, geometry, onPress, properties } = cluster;
+          const points = properties.point_count;
+
+          return (
+            <Marker
+              key={`cluster-${id}`}
+              coordinate={{
+                longitude: geometry.coordinates[0],
+                latitude: geometry.coordinates[1],
+              }}
+              style={widthStyle}
+              onPress={onPress}
+            >
+              <ImageBackground
+                style={widthStyle}
+                source={require('../../assets/img/invaders_cluster.png')}
+              >
+                <Text style={textStyle}>{points}</Text>
+              </ImageBackground>
+            </Marker>
+          );
+        }}
       >
-        {/* <UrlTile
-          urlTemplate={'http://c.tile.openstreetmap.org/{z}/{x}/{y}.png'}
-          maximumZ={19}
-        /> */}
         {markers}
       </MapView>
       <Button onPress={() => navigation.goBack()} title="Cancel" />
