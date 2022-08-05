@@ -24,7 +24,13 @@ const styleStatus = (st) => {
 const bgcolor = 'black';
 const textColor = 'white';
 const borderColor = 'white';
-const theme = DarkTheme;
+const theme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.color,
+    background: 'black',
+  },
+};
 
 const fontFamily = { fontFamily: 'monospace' };
 
