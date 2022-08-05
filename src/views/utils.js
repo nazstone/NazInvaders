@@ -6,7 +6,7 @@ const onPressSelectCity = (navigation, city, dispatch) => {
     await setPref({ city: city.name });
     dispatch(setPrefCity(city));
     if (navigation) {
-      navigation.goBack();
+      navigation.popToTop();
     }
   };
 };

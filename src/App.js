@@ -1,44 +1,82 @@
-import 'react-native-gesture-handler';
-import React from 'react';
-
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import * as React from 'react';
+import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import { fontFamily, theme } from './utils/style';
+import List from './views/List';
+import Map from './views/Map';
+import Detail from './views/Detail';
+import City from './views/City';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import prefReduce from './reducer/pref.reduce';
 
 import { init } from './repo/db';
 
-import CityView from './views/City';
-import prefReduce from './reducer/pref.reduce';
-import Home from './views/Home';
-import AboutView from './views/About';
-import Map from './views/Map';
-import { fontFamily, theme } from './utils/style';
-
 init();
-const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 const store = createStore(prefReduce);
 
-const App = () => {
+export default function App() {
+  const style = {
+    height: 50,
+    width: 50,
+  };
+
   return (
     <Provider store={store}>
       <NavigationContainer theme={theme}>
-        <Drawer.Navigator
-          initialRouteName="Home"
-          drawerContentOptions={{
-            labelStyle: {
+        <Stack.Navigator
+          initialRouteName="List"
+          screenOptions={{
+            headerTintColor: 'white',
+            headerTitleStyle: {
               ...fontFamily,
             },
           }}
         >
-          <Drawer.Screen name="Home" component={Home} />
-          <Drawer.Screen name="City" component={CityView} />
-          <Drawer.Screen name="Map" component={Map} />
-          <Drawer.Screen name="About" component={AboutView} />
-        </Drawer.Navigator>
+          <Stack.Screen
+            name="List"
+            component={List}
+            options={({ navigation }) => ({
+              title: 'Invaders',
+              headerRight: () => (
+                <Image
+                  style={style}
+                  resizeMode="center"
+                  onTouchEnd={() => {
+                    navigation.navigate('Map');
+                  }}
+                  source={require('../assets/img/map.png')}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="Detail"
+            component={Detail}
+            options={({ route }) => ({
+              title: route.params.item.name || 'Detail',
+            })}
+          />
+          <Stack.Screen
+            name="CityList"
+            component={City}
+            options={{
+              title: 'List of cities',
+            }}
+          />
+          <Stack.Screen
+            name="Map"
+            component={Map}
+            options={{
+              title: 'Map',
+              headerTransparent: true,
+            }}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
-};
-
-export default App;
+}

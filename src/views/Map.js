@@ -112,7 +112,10 @@ const Map = ({ navigation }) => {
       >
         {markers}
       </MapView>
-      <Button onPress={() => navigation.goBack()} title="Cancel" />
+      <Button
+        onPress={() => navigation.navigate('CityList')}
+        title="List of cities"
+      />
     </View>
   );
 };

@@ -6,6 +6,7 @@ const text = {
 const title = {
   fontSize: 34,
   fontWeight: '900',
+  color: 'white',
 };
 
 export { text, title };

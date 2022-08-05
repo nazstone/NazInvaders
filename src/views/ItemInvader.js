@@ -32,7 +32,7 @@ const ItemInvader = ({ item, navigation, lastSelected }) => {
       underlayColor="gray"
       onPress={() => {
         lastSelected && lastSelected(item);
-        navigation.navigate('Home', { screen: 'Detail', params: { item } });
+        navigation.navigate('Detail', { item });
       }}
     >
       <View
