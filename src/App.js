@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { fontFamily, theme } from './utils/style';
 import List from './views/List';
 import Map from './views/Map';
+import About from './views/About';
 import Detail from './views/Detail';
 import City from './views/City';
 import { Provider } from 'react-redux';
@@ -73,6 +74,13 @@ export default function App() {
             options={{
               title: 'Map',
               headerTransparent: true,
+            }}
+          />
+          <Stack.Screen
+            name="Help"
+            component={About}
+            options={{
+              title: 'Help',
             }}
           />
         </Stack.Navigator>

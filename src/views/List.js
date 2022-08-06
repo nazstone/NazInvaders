@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Image, FlatList, SafeAreaView, View } from 'react-native';
+import {
+  TouchableOpacity,
+  Image,
+  FlatList,
+  SafeAreaView,
+  View,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getPref, getItemCount, getItemPaginate } from '../repo/db';
@@ -11,6 +17,24 @@ import { onPressSelectCity } from './utils';
 import Text from './components/Text';
 
 const LIMIT_SEARCH = 50;
+
+const styleAboutView = {
+  position: 'absolute',
+  bottom: 0,
+  right: 0,
+  width: 40,
+  height: 40,
+};
+
+const styleAboutText = {
+  width: 40,
+  height: 40,
+  fontSize: 30,
+  fontWeight: 'bold',
+  textAlign: 'center',
+  textAlignVertical: 'center',
+  color: 'white',
+};
 
 const styleTitleButton = {
   flexDirection: 'row',
@@ -112,7 +136,6 @@ const List = ({ navigation }) => {
       setOffset(offset + limit);
     }
   };
-
   return (
     <SafeAreaView style={safeAreaViewStyle}>
       {!!cityName && (
@@ -135,6 +158,11 @@ const List = ({ navigation }) => {
         onEndReached={loadNext}
         onEndReachedThreshold={0.5}
       />
+      <View style={styleAboutView}>
+        <TouchableOpacity onPress={() => navigation.navigate('Help')}>
+          <Text style={styleAboutText}>?</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

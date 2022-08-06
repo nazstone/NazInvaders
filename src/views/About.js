@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { View, Linking } from 'react-native';
+import { View, Linking, TouchableOpacity } from 'react-native';
 import { text } from '../utils/font';
-import Button from './components/Button';
 import Text from './components/Text';
 
 const margin = {
@@ -14,25 +13,23 @@ const marginAndText = {
 };
 const linkStyle = {
   ...marginAndText,
-  color: 'blue',
+  color: 'yellow',
 };
-const AboutView = ({ navigation }) => {
+const AboutView = () => {
   return (
     <View style={margin}>
       <Text style={marginAndText}>
-        Fan of Invader, I decide to do application that list all invaders from
-        differents cities.
+        Fan of Invader, I decide to do an application that list all invaders
+        from differents cities.
       </Text>
       <Text style={marginAndText}>The data come from the web site:</Text>
-      <Text
-        style={linkStyle}
+      <TouchableOpacity
         onPress={() => {
           Linking.openURL('http://invader.spotter.free.fr/listing.php');
         }}
       >
-        Invader spotter
-      </Text>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
+        <Text style={linkStyle}>Invader spotter</Text>
+      </TouchableOpacity>
     </View>
   );
 };
