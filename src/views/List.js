@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   TouchableOpacity,
   Image,
@@ -58,6 +59,13 @@ const whereTextStyle = {
 
 const List = ({ navigation }) => {
   const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      paginate();
+    }, [])
+  );
+
   const prefConf = useSelector((state) => state.pref);
 
   const [count, setCount] = useState(0);
@@ -79,17 +87,16 @@ const List = ({ navigation }) => {
       setCityName(pref.item(0).city);
       city = pref.item(0).city;
     }
-    getItemCount({ city }, setCount);
+    setCount(await getItemCount({ city }));
   };
 
-  const paginate = () => {
-    getItemPaginate({ city: cityName }, { limit, offset }, (res) => {
-      const arr = offset ? items : [];
-      for (let i = 0; i < res.length; i += 1) {
-        arr.push(res.item(i));
-      }
-      mapItemsWithLastSelected(arr, lastSelected);
-    });
+  const paginate = async () => {
+    const res = await getItemPaginate({ city: cityName }, { limit, offset });
+    const arr = offset ? items : [];
+    for (let i = 0; i < res.length; i += 1) {
+      arr.push(res.item(i));
+    }
+    mapItemsWithLastSelected(arr, lastSelected);
   };
 
   useEffect(() => {

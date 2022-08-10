@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  TouchableOpacity,
   Dimensions,
   FlatList,
   Linking,
+  Switch,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Text from './components/Text';
@@ -12,7 +13,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ImageZoom from 'react-native-image-pan-zoom';
 import { DateTime } from 'luxon';
 
-import { getComments } from '../repo/db';
+import { getComments, getItem, setItemFounded } from '../repo/db';
 import {
   bgcolor,
   borderColor,
@@ -20,6 +21,7 @@ import {
   styleStatus,
   textColor,
 } from '../utils/style';
+import { boolToInt, intToBool } from './utils';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -50,14 +52,19 @@ const styleCommentText = {
 };
 
 const styleTextOpen = {
+  width: '100%',
+  height: '100%',
+  paddingTop: 5,
+  paddingBottom: 5,
+  paddingRight: 10,
+  paddingLeft: 10,
+};
+
+const styleViewTextOpen = {
   position: 'absolute',
   right: 0,
   bottom: 0,
   margin: 10,
-  paddingTop: 5,
-  paddingBottom: 1,
-  paddingRight: 5,
-  paddingLeft: 12,
   borderRadius: 30,
   borderWidth: 3,
   borderColor: borderColor,
@@ -73,25 +80,18 @@ const styleLocationInfo = {
   marginTop: 10,
 };
 
-const styleLocation = {
-  borderWidth: 3,
-  borderRadius: 25,
-  width: 80,
-  height: 30,
-  alignItems: 'center',
-  paddingTop: 1,
-  borderColor: borderColor,
-};
+const extract = (route) => route.params.item;
 
 const Detail = ({ route, navigation }) => {
-  const { item } = route.params;
-
+  const [item, setItem] = useState(extract(route));
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     (async () => {
       const commentsTmp = await getComments(item.id);
       setComments(commentsTmp);
+      const res = await getItem(item.id);
+      res.length > 0 && setItem(res.item(0));
     })();
   }, [item.id]);
 
@@ -145,14 +145,15 @@ const Detail = ({ route, navigation }) => {
           resizeMode="contain"
         />
       </ImageZoom>
-      <Text
-        onPress={() => {
-          Linking.openURL(d.item);
-        }}
-        style={styleTextOpen}
-      >
-        Open
-      </Text>
+      <View style={styleViewTextOpen}>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL(d.item);
+          }}
+        >
+          <Text style={styleTextOpen}>Open</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -178,17 +179,17 @@ const Detail = ({ route, navigation }) => {
         </View>
         <View style={styleLocationInfo}>
           <Text>Place: {item.city}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Home', {
-                screen: 'Map',
-                params: { item },
-              });
+          <Switch
+            value={intToBool(item.founded)}
+            onValueChange={async () => {
+              const itemFounded = {
+                ...item,
+                founded: boolToInt(!intToBool(item.founded)),
+              };
+              setItem(itemFounded);
+              await setItemFounded(itemFounded);
             }}
-            style={styleLocation}
-          >
-            <Text>{item.pin ? 'Map' : 'Add pin'}</Text>
-          </TouchableOpacity>
+          />
         </View>
         <Text style={styleCommentTitle}>Comments:</Text>
         <View>{commentsView}</View>

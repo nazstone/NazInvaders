@@ -85,7 +85,6 @@ const Map = ({ navigation }) => {
           longitudeDelta: 30,
           latitudeDelta: 30,
         }}
-        // clusterColor="#f00"
         renderCluster={(cluster) => {
           const { id, geometry, onPress, properties } = cluster;
           const points = properties.point_count;

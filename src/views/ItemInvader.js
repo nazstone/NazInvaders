@@ -1,8 +1,9 @@
 import React from 'react';
-import { TouchableHighlight, View } from 'react-native';
+import { Image, TouchableHighlight, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { styleStatus } from '../utils/style';
 import Text from './components/Text';
+import { intToBool } from './utils';
 
 const styleDirectionRow = {
   flexDirection: 'row',
@@ -25,6 +26,12 @@ const styleDatePoints = {
   justifyContent: 'center',
   alignItems: 'flex-end',
 };
+const styleViewNameFounded = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+};
+const styleImageFounded = { width: 20, height: 15, marginLeft: 10 };
 
 const ItemInvader = ({ item, navigation, lastSelected }) => {
   return (
@@ -44,7 +51,15 @@ const ItemInvader = ({ item, navigation, lastSelected }) => {
         <FastImage source={{ uri: item.image_main }} style={styleFastImage} />
         <View style={styleMetadata}>
           <View style={styleName}>
-            <Text style={styleNameMore}>{item.name}</Text>
+            <View style={styleViewNameFounded}>
+              <Text style={styleNameMore}>{item.name}</Text>
+              {intToBool(item.founded) && (
+                <Image
+                  source={require('../../assets/img/founded.png')}
+                  style={styleImageFounded}
+                />
+              )}
+            </View>
             <Text style={styleStatus(item.status)}>{item.status}</Text>
           </View>
           <View style={styleDatePoints}>
