@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   TouchableOpacity,
   Image,
@@ -57,14 +57,17 @@ const whereTextStyle = {
   flex: 1,
 };
 
-const List = ({ navigation }) => {
-  const dispatch = useDispatch();
+const List = () => {
+  const navigation = useNavigation();
+  const [backNav, setBackNav] = useState(false);
 
-  useFocusEffect(
-    useCallback(() => {
-      paginate();
-    }, [])
-  );
+  navigation.addListener('state', (e) => {
+    setBackNav(
+      e.data.state.routes.length === 1 && e.data.state.routes[0].name === 'List'
+    );
+  });
+
+  const dispatch = useDispatch();
 
   const prefConf = useSelector((state) => state.pref);
 
@@ -107,6 +110,10 @@ const List = ({ navigation }) => {
     paginate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offset, cityName]);
+  useEffect(() => {
+    backNav && paginate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [backNav]);
 
   const mapItemsWithLastSelected = (itemsTmp, lastSelectedTmp) => {
     setItems(

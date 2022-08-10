@@ -82,7 +82,7 @@ const styleLocationInfo = {
 
 const extract = (route) => route.params.item;
 
-const Detail = ({ route, navigation }) => {
+const Detail = ({ route }) => {
   const [item, setItem] = useState(extract(route));
   const [comments, setComments] = useState([]);
 
